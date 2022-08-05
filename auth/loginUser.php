@@ -1,3 +1,43 @@
+<?php
+    session_start();
+    if (isset($_SESSION['user'])) {
+        echo "
+          <script>
+            document.location.href = '../userSeeSalary';
+          </script>
+        ";
+    }
+
+    include '../config.php';
+    $db = dbConnect();
+
+
+    if (isset($_POST['login'])) {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        $sqladmin = "SELECT * FROM karyawan WHERE NIK = '$username' AND pass = '$password'";
+        $execute = $db->query($sqladmin);
+
+        if (mysqli_num_rows($execute) > 0) {
+          $_SESSION['user'] = true;
+          $_SESSION['username'] = $username;
+          echo "
+            <script>
+              alert('Sukses Login');
+              document.location.href = '../userSeeSalary';
+            </script>
+          ";
+        }else{
+          echo "
+            <script>
+              alert('Gagal Login');
+              document.location.href = '';
+            </script>
+          ";
+        }
+    }
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -44,13 +84,13 @@
       <div class="container mt-5">
       <h4 class="text-center">Login Karyawan</h4>
       <hr>
-      <form action="../userSeeSalary/index.php" method="POST">
+      <form action="" method="POST">
         <div class="form-group"></div>
           <label>NIK</label>
             <div class="input-group">
               <div class="input-group-prepend"></div>
                 <div class="input-group-text"><i class="fas fa-user"></i></div>
-                  <input type="number" name="nisn" class="form-control" placeholder="Masukan NIK Anda">
+                  <input type="number" name="username" class="form-control" placeholder="Masukan NIK Anda">
             </div>
         <div class="form-group">
           <label>Password</label>
@@ -62,10 +102,11 @@
             </div>
         </div>
         <center><button type="submit" name="login" class="btn btn-primary">Login</button></center>
-        <br>
-        <br>
-        <center><a href="../index.php" class="text-danger">Kembali</a></center>
+        
       </form>
+      <br>
+      <br>
+      <center><a href="../index.php" class="text-danger">Kembali</a></center>
     </div>
     </div>
 

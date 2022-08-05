@@ -1,6 +1,6 @@
 <?php
     include 'config.php';
-    $db = dbCconnect();
+    $db = dbConnect();
 
 
     

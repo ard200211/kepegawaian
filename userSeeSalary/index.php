@@ -1,3 +1,31 @@
+<?php
+    session_start();
+
+    if (!isset($_SESSION['user'])) {
+        echo "
+            <script>
+                alert('Login Dahulu');
+                document.location.href = '../auth/loginUser.php';
+            </script>
+        ";
+    }
+    include '../config.php';
+    $db = dbConnect();
+    $ss = $_SESSION['username'];
+    $sql = "SELECT a.*, b.*, c.* FROM ((karyawan as a
+            INNER JOIN jabatan as b ON a.id_jabatan = b.id_jabatan)
+            INNER JOIN status as c ON a.id_status = c.id_status)
+            WHERE NIK = '$ss'";
+    $execSql = $db->query($sql);
+    $assocSql = $execSql->fetch_assoc();
+
+    $sqlLog = "SELECT a.*, b.* FROM (log_karyawan as a
+                INNER JOIN jabatan as b ON a.gaji_lama = b.id_jabatan)
+               WHERE nik = '$ss'";
+    $execLog = $db->query($sqlLog);
+
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,7 +73,7 @@
     <div class="mt-5 mb-3">
       <h5>
         <i>
-          Halo, Nama Karyawan
+          Halo, Nama <?= $assocSql['nama']?>
         </i>
       </h5>
     </div>
@@ -65,11 +93,11 @@
         </thead>
         <tr>
           <td>1</td>
-          <td>10120211</td>
-          <td>Arif Rachmat Darmawan</td>
-          <td>CEO</td>
-          <td>10.000.000</td>
-          <td>Pekerja Tetap</td>
+          <td><?= $assocSql['NIK']?></td>
+          <td><?= $assocSql['nama']?></td>
+          <td><?= $assocSql['nama_jabatan']?></td>
+          <td><?= $assocSql['jumlah_gaji']?></td>
+          <td><?= $assocSql['status']?></td>
         </tr>
       </table>      
     </div>
@@ -78,7 +106,7 @@
     <div class="mt-5 mb-3">
           <h5>
             <i>
-              Daftar Karyawan
+              Log Gaji Karyawan
             </i>
           </h5>
         </div>
@@ -90,20 +118,18 @@
               <tr>
                 <th>No</th>
                 <th>NIK</th>
-                <th>Nama Lengkap</th>
-                <th>Jabatan</th>
-                <th>Gaji</th>
-                <th>Status</th>
+                <th>Jabatan Lama</th>
+                <th>Tanggal Ubah</th>
               </tr> 
             </thead>
+            <?php $i = 1; foreach($execLog as $resLog):?>
             <tr>
-              <td>1</td>
-              <td>10120211</td>
-              <td>Arif Rachmat Darmawan</td>
-              <td>CEO</td>
-              <td>Rp. 10.000.000</td>
-              <td>Pekerja Tetap</td>
+              <td><?= $i++;?></td>
+              <td><?= $resLog['nik']?></td>
+              <td><?= $resLog['nama_jabatan']?></td>
+              <td><?= $resLog['waktu']?></td>
             </tr>
+            <?php endforeach;?>
           </table>      
         </div>
       </div>
@@ -123,7 +149,7 @@
                 <div class="modal-body">Apa kamu yakin ingin keluar?</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                    <a class="btn btn-danger" href="../index.php">Logout</a>
+                    <a class="btn btn-danger" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>

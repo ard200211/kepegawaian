@@ -9,7 +9,7 @@
     }
 
     include '../config.php';
-    $db = dbCconnect();
+    $db = dbConnect();
 
 
     if (isset($_POST['login'])) {
@@ -19,7 +19,7 @@
         $sqladmin = "SELECT * FROM admin WHERE username = '$username' AND password = '$password'";
         $execute = $db->query($sqladmin);
 
-        if ($execute) {
+        if (mysqli_num_rows($execute) > 0) {
           $_SESSION['admin'] = true;
           $_SESSION['username'] = $username;
           echo "
@@ -38,10 +38,6 @@
         }
 
     }
-
-
-    
-
 ?>
 <!doctype html>
 <html lang="en">
