@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css">
 
-    <title>Login Admin</title>
+    <title>Login Karyawan</title>
   </head>
   <body>
 
