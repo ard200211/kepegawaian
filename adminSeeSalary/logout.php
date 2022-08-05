@@ -4,7 +4,12 @@
     session_unset();
     session_destroy();
 
-    alert('Sukses Logout');
-    echo "<script>document.location.href = '../auth/loginAdmin.php'</script>";
+    
+    echo "
+        <script>
+            alert('Sukses Logout');
+            document.location.href = '../auth/loginAdmin.php';
+        </script>
+        ";
     exit;
 ?>
