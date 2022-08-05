@@ -1,3 +1,12 @@
 <?php 
-$koneksi = mysqli_connect("localhost", "root", "", "db_karyawan");
+    
+    function dbCconnect(){
+        $koneksi = mysqli_connect("localhost", "root", "", "kelompok9_if-6_kepegawaian");
+        if (!$koneksi) {
+            die('Koneksi Gagal');
+        }
+        return $koneksi;
+    }
+
+
  ?>

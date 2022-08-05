@@ -1,3 +1,11 @@
+<?php
+    include 'config.php';
+    $db = dbCconnect();
+
+
+    
+
+?>
 <!DOCTYPE html>
 <html>
 <head>

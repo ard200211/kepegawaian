@@ -1,3 +1,48 @@
+<?php
+    session_start();
+    if (isset($_SESSION['admin'])) {
+        echo "
+          <script>
+            document.location.href = '../adminSeeSalary/';
+          </script>
+        ";
+    }
+
+    include '../config.php';
+    $db = dbCconnect();
+
+
+    if (isset($_POST['login'])) {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        $sqladmin = "SELECT * FROM admin WHERE username = '$username' AND password = '$password'";
+        $execute = $db->query($sqladmin);
+
+        if ($execute) {
+          $_SESSION['admin'] = true;
+          $_SESSION['username'] = $username;
+          echo "
+            <script>
+              alert('Sukses Login');
+              document.location.href = '../adminSeeSalary';
+            </script>
+          ";
+        }else{
+          echo "
+            <script>
+              alert('Gagal Login');
+              document.location.href = '';
+            </script>
+          ";
+        }
+
+    }
+
+
+    
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -37,20 +82,20 @@
       a:hover{
         text-decoration: none;
         color: #000000;
-
+      } 
     </style>
 
     <div style="margin-top: 150px;">
       <div class="container mt-5">
       <h4 class="text-center">Login Admin</h4>
       <hr>
-      <form action="../adminSeeSalary/index.php" method="POST">
+      <form action="" method="POST">
         <div class="form-group"></div>
           <label>Username</label>
             <div class="input-group">
               <div class="input-group-prepend"></div>
                 <div class="input-group-text"><i class="fas fa-user"></i></div>
-                  <input type="text" name="nisn" class="form-control" placeholder="Masukan username anda">
+                  <input type="text" name="username" class="form-control" placeholder="Masukan username anda">
             </div>
         <div class="form-group">
           <label>Password</label>
@@ -62,7 +107,7 @@
             </div>
         </div>
         <p>Belum punya akun? <a href="register.php">Daftar</a></p>
-        <center><button type="submit" name="login" class="btn btn-primary" onclick="">Login</button></center>
+        <center><button type="submit" name="login" class="btn btn-primary">Login</button></center>
         <br>
         <br>
         <center><a href="../index.php" class="text-danger">Kembali</a></center>
