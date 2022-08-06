@@ -10,6 +10,8 @@
         ";
     }
 
+    include '../../../config.php';
+    $db = dbConnect();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -160,73 +162,34 @@
                                 <th>Aksi</th>
                               </tr> 
                             </thead>
+                            <?php 
+                                $sqlKjs = "SELECT a.*, b.*, c.* FROM ((karyawan as a
+                                        INNER JOIN jabatan as b ON a.id_jabatan = b.id_jabatan)
+                                        INNER JOIN status as c ON a.id_status = c.id_status)";
+                                $execKjs = $db->query($sqlKjs);
+                                $i = 1;
+                                foreach ($execKjs as $resKjs) :
+                            ?>
                             <tr>
-                              <td>1</td>
-                              <td>Arif Rachmat Darmawan</td>
-                              <td>10120211</td>
-                              <td>Laki-laki</td>
-                              <td>085748537214</td>
-                              <td>Jalan Otista GG. Kebon Karet No.29/5-C</td>
-                              <td>CEO</td>
-                              <td>10.000.000</td>
-                              <td>Pekerja Tetap</td>
+                              <td><?= $i++?></td>
+                              <td><?= $resKjs['nama']?></td>
+                              <td><?= $resKjs['NIK']?></td>
+                              <td><?= $resKjs['jk']?></td>
+                              <td><?= $resKjs['telepon']?></td>
+                              <td><?= $resKjs['nama']?></td>
+                              <td><?= $resKjs['nama_jabatan']?></td>
+                              <td><?= $resKjs['jumlah_gaji']?></td>
+                              <td><?= $resKjs['status']?></td>
                               <td>
                                   <a href="">Edit </a>|
                                   <a href=""> Hapus</a>
                               </td>
                             </tr>
+                            <?php endforeach;?>
                           </table> 
                         </div>
 
                 <hr>
-
-                <div class="container">
-                        <div class="mt-5 mb-3">
-                          <h5>
-                            <i>
-                              <b>Histori Hapus Karyawan</b>
-                            </i>
-                          </h5>
-                        </div>
-
-                        <div class="mt-5 mb-5">
-                          <table class="table">
-                            <thead>
-                              <tr>
-                                <th>No</th>
-                                <th>Nama</th>
-                                <th>NIK</th>
-                                <th>Jenis Kelamin</th>
-                                <th>Telepon</th>
-                                <th>Alamat</th>
-                                <th>Jabatan</th>
-                                <th>Gaji</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                              </tr> 
-                            </thead>
-                            <tr>
-                              <td>1</td>
-                              <td>Arif Rachmat Darmawan</td>
-                              <td>10120211</td>
-                              <td>Laki-laki</td>
-                              <td>085748537214</td>
-                              <td>Jalan Otista GG. Kebon Karet No.29/5-C</td>
-                              <td>CEO</td>
-                              <td>10.000.000</td>
-                              <td>Pekerja Tetap</td>
-                              <td>
-                                  <a href=""> Hapus</a>
-                              </td>
-                            </tr>
-                          </table>      
-
-                          
-                          
-
-                          
-                        </div>
-                  </div>
 
                   </div>
                 </div>
